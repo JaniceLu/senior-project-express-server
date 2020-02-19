@@ -5,12 +5,13 @@ const cors = require('cors');
 const port = (process.env.PORT || 3000);
 const connection = mysql.createConnection(process.env.DATABASE_URL);
 const SELECT_ALL_PRODUCTS_QUERY = 'SELECT * FROM assignments';
+app.use(cors());
 connection.connect(function(err) { 
     console.log(process.env.DATABASE_URL);
     if(err) throw err;
     console.log("Connected!");
 });
-app.use(cors());
+
 app.get('/', function (req, res) {
     connection.query(SELECT_ALL_PRODUCTS_QUERY, function (err, rows, fields) {
         if (err) console.log(err);
