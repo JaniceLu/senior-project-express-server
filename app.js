@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const app = express();
+const cors = require('cors');
 const port = (process.env.PORT || 3000);
 const connection = mysql.createConnection(process.env.DATABASE_URL);
 const SELECT_ALL_PRODUCTS_QUERY = 'SELECT * FROM assignments';
@@ -9,7 +10,7 @@ connection.connect(function(err) {
     if(err) throw err;
     console.log("Connected!");
 });
-
+app.use(cors());
 app.get('/', function (req, res) {
     connection.query(SELECT_ALL_PRODUCTS_QUERY, function (err, rows, fields) {
         if (err) console.log(err);
