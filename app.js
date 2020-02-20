@@ -17,6 +17,6 @@ app.get('/', function (req, res) {
         if (err) console.log(err);
         else { res.send(rows) }
     });
-});
+});//hello
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
