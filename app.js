@@ -29,7 +29,7 @@ app.post('/signup', function(req, res) {
         email: req.body.email
     }
     connection.query(ADD_NEW_USER_QUERY, new_user, function (err, results) {
-        if (err) res.send(err + new_user.firebase_id + new_user.email);
+        if (err) res.send(err + " " + new_user.firebase_id + " " + new_user.email);
         else res.send(results);
     });
 });
