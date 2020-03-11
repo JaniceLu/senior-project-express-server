@@ -28,13 +28,9 @@ app.post('/signup', function(req, res) {
         is_teacher: req.body.is_teacher,
         email: req.body.email
     }
-    connection.query(ADD_NEW_USER_QUERY, new_user, function (err, results, fields) {
+    connection.query(ADD_NEW_USER_QUERY, new_user, function (err, results) {
         if (err) res.send({new_user});
-        else {
-            console.log("Added user");
-            res.send("Added user");
-            connection.end();
-        }
+        else res.send(results);
     });
 });
 
