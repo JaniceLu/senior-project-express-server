@@ -20,11 +20,6 @@ app.get('/', function (req, res) {
     });
 });
 
-app.use('/signup', function(req, res, next) {
-    console.log(req + " " + req.body);
-    next();
-});
-
 app.post('/signup', function(req, res) {
     var new_user = {
         firebase_id: req.body.firebase_id,
