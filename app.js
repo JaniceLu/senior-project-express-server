@@ -29,7 +29,7 @@ app.post('/signup', function(req, res) {
         email: req.params.email
     }
     connection.query(ADD_NEW_USER_QUERY, new_user, function (err, results) {
-        if (err) res.send(err + new_user);
+        if (err) res.send(err + {new_user});
         else res.send(results);
     });
 });
