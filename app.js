@@ -22,11 +22,11 @@ app.get('/', function (req, res) {
 
 app.post('/signup', function(req, res) {
     var new_user = {
-        firebase_id: req.body.firebase_id,
-        name: req.body.name,
-        school_id: req.body.school_id,
-        is_teacher: req.body.is_teacher,
-        email: req.body.email
+        firebase_id: req.params.firebase_id,
+        name: req.params.name,
+        school_id: req.params.school_id,
+        is_teacher: req.params.is_teacher,
+        email: req.params.email
     }
     connection.query(ADD_NEW_USER_QUERY, new_user, function (err, results) {
         if (err) res.send({new_user});
