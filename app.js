@@ -22,14 +22,14 @@ app.get('/', function (req, res) {
 
 app.post('/signup', function(req, res) {
     var new_user = {
-        firebase_id: req.params.firebase_id,
-        school_id: req.params.school_id,
-        name: req.params.name,
-        is_teacher: req.params.is_teacher,
-        email: req.params.email
+        firebase_id: req.body.firebase_id,
+        school_id: req.body.school_id,
+        name: req.body.name,
+        is_teacher: req.body.is_teacher,
+        email: req.body.email
     }
     connection.query(ADD_NEW_USER_QUERY, new_user, function (err, results) {
-        if (err) res.send(err + {new_user});
+        if (err) res.send(err + new_user.firebase_id + new_user.email);
         else res.send(results);
     });
 });
