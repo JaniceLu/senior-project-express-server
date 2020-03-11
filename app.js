@@ -5,7 +5,7 @@ const cors = require('cors');
 const port = (process.env.PORT || 3000);
 const connection = mysql.createConnection(process.env.DATABASE_URL);
 const SELECT_ALL_PRODUCTS_QUERY = 'SELECT * FROM users';
-const ADD_NEW_USER_QUERY = 'INSERT INTO users (firebase_id, name, school_id, is_teacher, email) VALUES ?'
+const ADD_NEW_USER_QUERY = 'INSERT INTO users (firebase_id, school_id, name, is_teacher, email) VALUES ?'
 app.use(cors());
 connection.connect(function(err) { 
     console.log(process.env.DATABASE_URL);
