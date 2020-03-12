@@ -68,6 +68,7 @@ app.post('/signin', function(req, res) {
                 res.send(results);
             } else {
                 console.log("no user with firebase id: " + req.body.firebase_id);
+                console.log(results);
                 res.send(results);
             }
         }
