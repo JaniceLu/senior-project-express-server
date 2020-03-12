@@ -32,11 +32,10 @@ app.post('/signup', function(req, res) {
         is_teacher: req.body.is_teacher,
         email: req.body.email
     }
-    console.log(new_user);
     connection.query(ADD_NEW_USER_QUERY, new_user, function (err, results) {
         if (err) res.send(err);
         else {
-            console.log(results); 
+            console.log("it worked"); 
             res.send(results);
         }
     });
