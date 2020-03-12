@@ -14,7 +14,6 @@ connection.connect(function(err) {
 });
 
 app.get('/', function (req, res) {
-    if (err) throw err;
     connection.query(SELECT_ALL_PRODUCTS_QUERY, function (err, rows) {
         if (err) console.log(err);
         else { res.send(connection) }
@@ -22,7 +21,6 @@ app.get('/', function (req, res) {
 });
 
 app.post('/signup', function(req, res) {
-    if (err) throw err;
     var new_user = {
         firebase_id: req.params.firebase_id,
         school_id: req.params.school_id,
