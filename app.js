@@ -7,7 +7,9 @@ const port = (process.env.PORT || 3000);
 const connection = mysql.createConnection(process.env.DATABASE_URL || process.env.DATABASE_URI);
 const SELECT_ALL_PRODUCTS_QUERY = 'SELECT * FROM users';
 const ADD_NEW_USER_QUERY = 'INSERT INTO users (firebase_id, school_id, name, is_teacher, email) VALUES ?'
-app.use(bodyParser());
+app.use(bodyParser.raw());
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
 app.use(cors());
 connection.connect(function(err) { 
     console.log(process.env.DATABASE_URL + " " + process.env.DATABASE_URI);
