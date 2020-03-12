@@ -21,6 +21,7 @@ app.get('/', function (req, res) {
 });
 
 app.post('/signup', function(req, res) {
+    console.log(req.body);
     var new_user = {
         firebase_id: req.body.firebase_id,
         school_id: req.body.school_id,
@@ -29,7 +30,7 @@ app.post('/signup', function(req, res) {
         email: req.body.email
     }
     connection.query(ADD_NEW_USER_QUERY, new_user, function (err, results) {
-        if (err) res.send(err + " " + new_user.firebase_id);
+        if (err) res.send(err);
         else res.send(results);
     });
 });
