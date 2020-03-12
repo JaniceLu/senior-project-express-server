@@ -3,17 +3,18 @@ const mysql = require('mysql');
 const app = express();
 const cors = require('cors');
 const port = (process.env.PORT || 3000);
-const connection = mysql.createConnection(process.env.DATABASE_URL);
+const connection = mysql.createConnection(process.env.DATABASE_URL || process.env.DATABASE_URI);
 const SELECT_ALL_PRODUCTS_QUERY = 'SELECT * FROM users';
 const ADD_NEW_USER_QUERY = 'INSERT INTO users (firebase_id, school_id, name, is_teacher, email) VALUES ?'
 app.use(cors());
 connection.connect(function(err) { 
-    console.log(process.env.DATABASE_URL);
+    console.log(process.env.DATABASE_URL + " " + process.env.DATABASE_URI);
     if(err) throw err;
     console.log("Connected!");
 });
 
 app.get('/', function (req, res) {
+    if (err) throw err;
     connection.query(SELECT_ALL_PRODUCTS_QUERY, function (err, rows) {
         if (err) console.log(err);
         else { res.send(connection) }
@@ -21,6 +22,7 @@ app.get('/', function (req, res) {
 });
 
 app.post('/signup', function(req, res) {
+    if (err) throw err;
     var new_user = {
         firebase_id: req.params.firebase_id,
         school_id: req.params.school_id,
