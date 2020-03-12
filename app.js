@@ -33,7 +33,10 @@ app.post('/signup', function(req, res) {
         email: req.body.email
     }
     connection.query(ADD_NEW_USER_QUERY, new_user, function (err, results) {
-        if (err) res.send(err);
+        if (err) {
+            console.log("didn't work");
+            res.send(err);
+        }
         else {
             console.log("it worked"); 
             res.send(results);
