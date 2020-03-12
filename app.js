@@ -11,7 +11,7 @@ app.use(bodyParser.raw());
 app.use(bodyParser.json());
 app.use(cors());
 connection.connect(function(err) { 
-    console.log(process.env.DATABASE_URL + " " + process.env.DATABASE_URI);
+    console.log(process.env.DATABASE_URL);
     if(err) throw err;
     console.log("Connected!");
 });
@@ -32,6 +32,7 @@ app.post('/signup', function(req, res) {
         is_teacher: req.body.is_teacher,
         email: req.body.email
     }
+    console.log(new_user);
     connection.query(ADD_NEW_USER_QUERY, new_user, function (err, results) {
         if (err) res.send(err);
         else res.send(results);
