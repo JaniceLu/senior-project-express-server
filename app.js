@@ -8,7 +8,6 @@ const connection = mysql.createConnection(process.env.DATABASE_URL || process.en
 const SELECT_ALL_PRODUCTS_QUERY = 'SELECT * FROM users';
 const ADD_NEW_USER_QUERY = 'INSERT INTO users (firebase_id, school_id, name, is_teacher, email) VALUES ?'
 app.use(bodyParser.raw());
-app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(cors());
 connection.connect(function(err) { 
