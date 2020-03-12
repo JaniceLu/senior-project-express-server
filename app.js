@@ -16,7 +16,7 @@ connection.connect(function(err) {
 app.get('/', function (req, res) {
     connection.query(SELECT_ALL_PRODUCTS_QUERY, function (err, rows) {
         if (err) console.log(err);
-        else { res.send(connection) }
+        else { res.send(rows) }
     });
 });
 
