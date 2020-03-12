@@ -21,7 +21,7 @@ app.get('/', function (req, res) {
 });
 
 app.post('/signup', function(req, res) {
-    console.log(req.body);
+    console.log(req);
     var new_user = {
         firebase_id: req.body.firebase_id,
         school_id: req.body.school_id,
