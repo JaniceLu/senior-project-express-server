@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const port = (process.env.PORT || 3000);
 const connection = mysql.createConnection(process.env.DATABASE_URL || process.env.DATABASE_URI);
 const SELECT_ALL_PRODUCTS_QUERY = 'SELECT * FROM users';
-const ADD_NEW_USER_QUERY = 'INSERT INTO users (firebase_id, school_id, name, is_teacher, email) VALUES ?'
+const ADD_NEW_USER_QUERY = 'INSERT INTO users SET ?'
 app.use(bodyParser.raw());
 app.use(bodyParser.json());
 app.use(cors());
