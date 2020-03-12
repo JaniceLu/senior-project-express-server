@@ -35,6 +35,7 @@ app.post('/signup', function(req, res) {
     connection.query(ADD_NEW_USER_QUERY, new_user, function (err, results) {
         if (err) {
             console.log("didn't work");
+            console.log(err);
             res.send(err);
         }
         else {
