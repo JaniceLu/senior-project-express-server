@@ -92,6 +92,10 @@ app.post('/updateprofile', function(req, res) {
                 console.log("user info has been changed");
                 console.log(results);
                 res.send(results);
+            } else {
+                console.log("user info has not been changed");
+                console.log(results);
+                res.send(results);
             }
         }
     });
