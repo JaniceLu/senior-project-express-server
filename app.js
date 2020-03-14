@@ -88,12 +88,8 @@ app.post('/updateprofile', function(req, res) {
             console.log(err);
             res.send(err);
         } else {
-            if(results && results.length) {
+            if(results) {
                 console.log("user info has been changed");
-                console.log(results);
-                res.send(results);
-            } else {
-                console.log("could not update " + req.body.firebase_id + "'s information");
                 console.log(results);
                 res.send(results);
             }
