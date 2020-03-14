@@ -8,7 +8,7 @@ const connection = mysql.createConnection(process.env.DATABASE_URL || process.en
 const SELECT_ALL_PRODUCTS_QUERY = 'SELECT * FROM users';
 const ADD_NEW_USER_QUERY = 'INSERT INTO users SET ?';
 const GET_USER_INFO_QUERY = 'SELECT firebase_id, is_teacher from users WHERE firebase_id = ?';
-
+const UPDATE_USER_INFO_QUERY = 'UPDATE users SET ? WHERE firebase_id = ?';
 app.use(bodyParser.raw());
 app.use(bodyParser.json());
 app.use(cors());
@@ -74,6 +74,32 @@ app.post('/signin', function(req, res) {
         }
     })
 });
+//changed so that all parameters are needed for update
+app.post('/updateprofile', function(req, res) {
+    console.log(req.body);
+    var updatedInfo = {
+        school_id: req.body.school_id,
+        name: req.body.name,
+        email: req.body.email
+    }
+    connection.query(UPDATE_USER_INFO_QUERY, [updatedInfo, req.body.firebase_id], function (err, results) {
+        if (err) {
+            console.log("didn't work");
+            console.log(err);
+            res.send(err);
+        } else {
+            if(results && results.length) {
+                console.log("user info has been changed");
+                console.log(results);
+                res.send(results);
+            } else {
+                console.log("could not update " + req.body.firebase_id + "'s information");
+                console.log(results);
+                res.send(results);
+            }
+        }
+    });
+})
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
 
