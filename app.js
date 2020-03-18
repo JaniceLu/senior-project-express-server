@@ -9,6 +9,7 @@ const SELECT_ALL_PRODUCTS_QUERY = 'SELECT * FROM users';
 const ADD_NEW_USER_QUERY = 'INSERT INTO users SET ?';
 const ADD_NEW_CLASS_QUERY = 'INSERT INTO classes SET ?';
 const GET_USER_INFO_QUERY = 'SELECT firebase_id, is_teacher from users WHERE firebase_id = ?';
+const GET_CLASS_INFO_QUERY = 'SELECT id, name, due_date, pub_date from assignments WHERE class_id = ?';
 const UPDATE_USER_INFO_QUERY = 'UPDATE users SET ? WHERE firebase_id = ?';
 app.use(bodyParser.raw());
 app.use(bodyParser.json());
@@ -145,6 +146,31 @@ app.post('/createclass', function(req, res) {
         }
     })
 });
+
+/**
+ * Use Case 2.4.1
+ */
+app.post('/viewclass', function(req, res) {
+    console.log(req.body);
+    connection.query(GET_CLASS_INFO_QUERY, req.body.class_id, function (err, results) {
+        if (err) {
+            console.log("didn't work");
+            console.log(err);
+            res.send(err);
+        } else {
+            if(results) {
+                console.log("class has been found");
+                console.log(results);
+                res.send(results);
+            } else {
+                console.log("could not find class");
+                console.log(results);
+                res.send(results);
+            }
+        }
+    })
+});
+})
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
 
