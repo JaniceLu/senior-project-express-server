@@ -159,7 +159,11 @@ app.post('/viewclass', function(req, res) {
             res.send(err);
         } else {
             if(results) {
-                console.log("class has been found");
+                if(results.length) {
+                    console.log("class has been found and has assignments");
+                } else {
+                    console.log("class has been found but no assignments");
+                }
                 console.log(results);
                 res.send(results);
             } else {
