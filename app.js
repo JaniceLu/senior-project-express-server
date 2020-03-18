@@ -33,6 +33,9 @@ app.get('/', function (req, res) {
     });
 });
 
+/**
+ * Use Case 0.1.1
+ */
 app.post('/signup', function(req, res) {
     console.log(req.body);
     var new_user = {
@@ -55,6 +58,9 @@ app.post('/signup', function(req, res) {
     });
 });
 
+/**
+ * Use Case 
+ */
 app.post('/signin', function(req, res) {
     console.log(req.body);
     connection.query(GET_USER_INFO_QUERY, req.body.firebase_id, function (err, results) {
@@ -80,7 +86,11 @@ app.get('/login', function(req, res) {
 
 });
 
-//changed so that all parameters are needed for update
+/**
+ * Use Case 1.2.2
+ * Change History:
+ * 3/10 - changed so that all parameters are needed for update
+ */
 app.post('/updateprofile', function(req, res) {
     console.log(req.body);
     var updatedInfo = {
@@ -107,6 +117,9 @@ app.post('/updateprofile', function(req, res) {
     });
 })
 
+/**
+ * Use case 2.3.1
+ */
 app.post('/createclass', function(req, res) {
     console.log(req.body);
     var newClass = {
