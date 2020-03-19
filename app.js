@@ -12,6 +12,7 @@ const DELETE_CLASS_QUERY = 'DELETE FROM classes where id = ?'
 const GET_USER_INFO_QUERY = 'SELECT firebase_id, is_teacher from users WHERE firebase_id = ?';
 const GET_CLASS_INFO_QUERY = 'SELECT id, name, due_date, pub_date from assignments WHERE class_id = ?';
 const UPDATE_USER_INFO_QUERY = 'UPDATE users SET ? WHERE firebase_id = ?';
+const UPDATE_CLASS_INFO_QUERY = 'UPDATE classes SET ? WHERE id = ?';
 app.use(bodyParser.raw());
 app.use(bodyParser.json());
 app.use(cors());
@@ -119,6 +120,9 @@ app.post('/updateprofile', function(req, res) {
     });
 });
 
+/**
+ * Use Case 2.2.1
+ */
 app.post('/deleteclass', function(req, res) {
     console.log(req.body);
     connection.query(DELETE_CLASS_QUERY, req.body.id, function (err, results) {
@@ -127,18 +131,12 @@ app.post('/deleteclass', function(req, res) {
             console.log(err);
             res.send(err);
         } else {
-            if(results) {
-                console.log("class has been deleted");
-                console.log(results);
-                res.send(results);
-            } else {
-                console.log("could not delete class");
-                console.log(results);
-                res.send(results);
-            }
+            console.log(results);
+            res.send(results);
         }
     })
 });
+
 /**
  * Use case 2.3.1
  */
@@ -196,6 +194,34 @@ app.post('/viewclass', function(req, res) {
     })
 });
 
+/**
+ * Use Case 2.10.3
+ */
+app.post('/updateclass', function(req, res) {
+    console.log(req.body);
+    var updatedData = {
+        firebase_id: req.body.firebase_id,
+        class_title: req.body.class_title,
+        class_year: req.body.class_year
+    }
+    connection.query(UPDATE_CLASS_INFO_QUERY, [updatedData, req.body.id], function (err, results) {
+        if (err) {
+            console.log("didn't work");
+            console.log(err);
+            res.send(err);
+        } else {
+            if(results) {
+                console.log("class info has been changed");
+                console.log(results);
+                res.send(results);
+            } else {
+                console.log("class info has not been changed");
+                console.log(results);
+                res.send(results);
+            }
+        }
+    }
+})
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
 
