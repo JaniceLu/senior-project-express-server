@@ -220,8 +220,8 @@ app.post('/updateclass', function(req, res) {
                 res.send(results);
             }
         }
-    }
-})
+    })
+});
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
 
