@@ -8,6 +8,7 @@ const connection = mysql.createConnection(process.env.DATABASE_URL || process.en
 const SELECT_ALL_PRODUCTS_QUERY = 'SELECT * FROM users';
 const ADD_NEW_USER_QUERY = 'INSERT INTO users SET ?';
 const ADD_NEW_CLASS_QUERY = 'INSERT INTO classes SET ?';
+const DELETE_CLASS_QUERY = 'DELETE FROM classes where id = ?'
 const GET_USER_INFO_QUERY = 'SELECT firebase_id, is_teacher from users WHERE firebase_id = ?';
 const GET_CLASS_INFO_QUERY = 'SELECT id, name, due_date, pub_date from assignments WHERE class_id = ?';
 const UPDATE_USER_INFO_QUERY = 'UPDATE users SET ? WHERE firebase_id = ?';
@@ -116,8 +117,28 @@ app.post('/updateprofile', function(req, res) {
             }
         }
     });
-})
+});
 
+app.post('/deleteclass', function(req, res) {
+    console.log(req.body);
+    connection.query(DELETE_CLASS_QUERY, req.body.id, function (err, results) {
+        if (err) {
+            console.log("didn't work");
+            console.log(err);
+            res.send(err);
+        } else {
+            if(results) {
+                console.log("class has been deleted");
+                console.log(results);
+                res.send(results);
+            } else {
+                console.log("could not delete class");
+                console.log(results);
+                res.send(results);
+            }
+        }
+    })
+});
 /**
  * Use case 2.3.1
  */
