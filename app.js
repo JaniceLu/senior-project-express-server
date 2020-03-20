@@ -237,10 +237,8 @@ app.post("/updateclass", function(req, res) {
 /*
  * Use Case 2.9.1
  */
-const CREATE_ASSIGNMENT_QUERY = `START TRANSACTION;
-INSERT INTO assignments SET ?;
-INSERT INTO questions (assignment_id,question,answer) VALUES ?;
-COMMIT;`;
+const CREATE_ASSIGNMENT_QUERY = `INSERT INTO assignments SET ?`;
+const CREATE_QUESTIONS_QUERY = `INSERT INTO questions (assignment_id,question,answer) VALUES ?`;
 app.post("/createassignment", (req, res) => {
   /*
    * Expected Body format:
