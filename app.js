@@ -6,9 +6,13 @@ const bodyParser = require("body-parser");
 const moment = require("moment");
 
 const port = process.env.PORT || 3000;
-const connection = mysql.createConnection(
-  process.env.DATABASE_URL || process.env.DATABASE_URI
-);
+const connection = mysql.createConnection({
+  host: "mysql-quickmaths-9472.nodechef.com:2383",
+  user: "ncuser_3219",
+  password: "39t1xTgOSpST0SJUIyTiBwBGFutlyo",
+  database: "quickmaths",
+  multipleStatements: true
+});
 
 app.use(bodyParser.raw());
 app.use(bodyParser.json());
