@@ -6,20 +6,15 @@ const bodyParser = require("body-parser");
 const moment = require("moment");
 
 const port = process.env.PORT || 3000;
-const connection = mysql.createConnection({
-  host: "process.env.DATABASE_URL",
-  user: "ncuser_3219",
-  password: "39t1xTgOSpST0SJUIyTiBwBGFutlyo",
-  database: "quickmaths",
-  multipleStatements: true
-});
+const dburl = process.env.DATABASE_URL || process.env.DATABASE_URI;
+const connection = mysql.createConnection(dburl);
 
 app.use(bodyParser.raw());
 app.use(bodyParser.json());
 app.use(cors());
 
 connection.connect(function(err) {
-  console.log(process.env.DATABASE_URL);
+  console.log(dburl);
   if (err) {
     console.log(err);
     throw err;
