@@ -7,7 +7,7 @@ const moment = require("moment");
 
 const port = process.env.PORT || 3000;
 const connection = mysql.createConnection({
-  host: "mysql-quickmaths-9472.nodechef.com:2383",
+  host: "process.env.DATABASE_URL",
   user: "ncuser_3219",
   password: "39t1xTgOSpST0SJUIyTiBwBGFutlyo",
   database: "quickmaths",
