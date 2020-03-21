@@ -14,8 +14,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 connection.connect(function(err) {
-  console.log(dburl);
   if (err) {
+    console.log("Error connecting to DB");
     console.log(err);
     throw err;
   }
@@ -38,7 +38,7 @@ app.post("/signup", function(req, res) {
   };
   connection.query(ADD_NEW_USER_QUERY, new_user, function(err, results) {
     if (err) {
-      console.log("didn't work");
+      console.log("Error adding user");
       console.log(err);
       res.send(err);
     } else {
@@ -61,7 +61,7 @@ app.post("/signin", function(req, res) {
     results
   ) {
     if (err) {
-      console.log("didn't work");
+      console.log("Error getting user");
       console.log(err);
       res.send(err);
     } else {
@@ -97,7 +97,7 @@ app.post("/updateprofile", function(req, res) {
     [updatedInfo, req.body.firebase_id],
     function(err, results) {
       if (err) {
-        console.log("didn't work");
+        console.log("Error updating profile");
         console.log(err);
         res.send(err);
       } else {
@@ -124,7 +124,7 @@ app.post("/deleteclass", function(req, res) {
   console.log(req.body);
   connection.query(DELETE_CLASS_QUERY, req.body.id, function(err, results) {
     if (err) {
-      console.log("didn't work");
+      console.log("Error deleting class");
       console.log(err);
       res.send(err);
     } else {
@@ -148,7 +148,7 @@ app.post("/createclass", function(req, res) {
   };
   connection.query(ADD_NEW_CLASS_QUERY, newClass, function(err, results) {
     if (err) {
-      console.log("didn't work");
+      console.log("Error adding class");
       console.log(err);
       res.send(err);
     } else {
@@ -178,7 +178,7 @@ app.post("/viewclass", function(req, res) {
     results
   ) {
     if (err) {
-      console.log("didn't work");
+      console.log("Error viewing class");
       console.log(err);
       res.send(err);
     } else {
@@ -216,7 +216,7 @@ app.post("/updateclass", function(req, res) {
     [updatedData, req.body.id],
     function(err, results) {
       if (err) {
-        console.log("didn't work");
+        console.log("Error updating class");
         console.log(err);
         res.send(err);
       } else {
@@ -250,67 +250,68 @@ app.post("/createassignment", (req, res) => {
    *    questions: [{question: '5 + 5', answer: 10},{question: '10 + 11', answer: 21}]
    * }
    */
-  //TODO: Insert MySQL query here
-});
-
-//Practice query
-const dummyBody = {
-  class_id: 3,
-  name: `Mark's Assignment`,
-  due_date: "2020-01-01",
-  number_of_questions: 2,
-  questions: [
-    { question: "5 + 5", answer: 10 },
-    { question: "10 + 11", answer: 21 }
-  ]
-};
-connection.beginTransaction(function(err) {
-  if (err) {
-    throw err;
-  }
-
-  const assignmentData = {
-    class_id: dummyBody.class_id,
-    name: dummyBody.name,
-    due_date: dummyBody.due_date,
-    pub_date: moment().format("YYYY-MM-DD"),
-    number_of_questions: dummyBody.number_of_questions
-  };
-
-  connection.query(CREATE_ASSIGNMENT_QUERY, assignmentData, function(
-    error,
-    results,
-    fields
-  ) {
-    if (error) {
-      return connection.rollback(function() {
-        throw error;
-      });
+  const requestBody = req.body;
+  console.log("Create Assignment body given: ");
+  console.log(requestBody);
+  connection.beginTransaction(function(err) {
+    if (err) {
+      console.log("Error creating assignment transaction");
+      console.log(err);
+      res.send(err);
     }
 
-    const assignmentId = results.insertId;
-    const questionData = dummyBody.questions.map(obj => [
-      assignmentId,
-      ...Object.values(obj)
-    ]);
+    //Work on inserting the assignments first
+    const assignmentData = {
+      class_id: requestBody.class_id,
+      name: requestBody.name,
+      due_date: requestBody.due_date,
+      pub_date: moment().format("YYYY-MM-DD"),
+      number_of_questions: requestBody.number_of_questions
+    };
 
-    connection.query(CREATE_QUESTIONS_QUERY, [questionData], function(
+    connection.query(CREATE_ASSIGNMENT_QUERY, assignmentData, function(
       error,
       results,
       fields
     ) {
       if (error) {
         return connection.rollback(function() {
-          throw error;
+          console.log("Error inserting assignment");
+          console.log(err);
+          res.send(err);
         });
       }
-      connection.commit(function(err) {
-        if (err) {
+
+      //MySQL inserting multiple records requires that all data is inside a 2D array
+      const assignmentId = results.insertId;
+      const questionData = requestBody.questions.map(obj => [
+        assignmentId,
+        ...Object.values(obj)
+      ]);
+
+      //If assignment insertion was successful, work on inserting the questions next
+      connection.query(CREATE_QUESTIONS_QUERY, [questionData], function(
+        error,
+        results,
+        fields
+      ) {
+        if (error) {
           return connection.rollback(function() {
-            throw err;
+            console.log("Error inserting questions");
+            console.log(err);
+            res.send(err);
           });
         }
-        console.log("Assignment has been added!");
+        connection.commit(function(err) {
+          if (err) {
+            return connection.rollback(function() {
+              console.log("Error commiting create assignment transaction");
+              console.log(err);
+              res.send(err);
+            });
+          }
+          console.log("Assignment has been added!");
+        });
       });
     });
   });
