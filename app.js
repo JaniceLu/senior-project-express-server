@@ -250,23 +250,70 @@ app.post("/createassignment", (req, res) => {
    *    questions: [{question: '5 + 5', answer: 10},{question: '10 + 11', answer: 21}]
    * }
    */
-  console.log("Create Assignment body given: ");
-  console.log(req.body);
+  //TODO: Insert MySQL query here
+});
 
-  const currentDate = moment().format("YYYY-MM-DD");
+//Practice query
+const dummyBody = {
+  class_id: 3,
+  name: `Mark's Assignment`,
+  due_date: "2020-01-01",
+  number_of_questions: 2,
+  questions: [
+    { question: "5 + 5", answer: 10 },
+    { question: "10 + 11", answer: 21 }
+  ]
+};
+connection.beginTransaction(function(err) {
+  if (err) {
+    throw err;
+  }
+
   const assignmentData = {
-    class_id: req.body.class_id,
-    name: req.body.name,
-    due_date: req.body.due_date,
-    pub_date: currentDate,
-    number_of_questions: req.body.number_of_questions
+    class_id: dummyBody.class_id,
+    name: dummyBody.name,
+    due_date: dummyBody.due_date,
+    pub_date: moment().format("YYYY-MM-DD"),
+    number_of_questions: dummyBody.number_of_questions
   };
-  console.log("Assignment Data before MySQL query: ");
-  console.log(assignmentData);
 
-  const answerData = req.body.questions.map(Object.values);
-  console.log("Answer Data before MySQL query: ");
-  console.log(answerData);
+  connection.query(CREATE_ASSIGNMENT_QUERY, assignmentData, function(
+    error,
+    results,
+    fields
+  ) {
+    if (error) {
+      return connection.rollback(function() {
+        throw error;
+      });
+    }
+
+    const assignmentId = results.insertId;
+    const questionData = dummyBody.questions.map(obj => [
+      assignmentId,
+      ...Object.values(obj)
+    ]);
+
+    connection.query(CREATE_QUESTIONS_QUERY, [questionData], function(
+      error,
+      results,
+      fields
+    ) {
+      if (error) {
+        return connection.rollback(function() {
+          throw error;
+        });
+      }
+      connection.commit(function(err) {
+        if (err) {
+          return connection.rollback(function() {
+            throw err;
+          });
+        }
+        console.log("Assignment has been added!");
+      });
+    });
+  });
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
