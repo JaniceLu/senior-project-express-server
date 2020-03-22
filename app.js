@@ -40,10 +40,10 @@ app.post("/signup", function(req, res) {
     if (err) {
       console.log("Error adding user");
       console.log(err);
-      res.send(err);
+      res.send({ failed: true });
     } else {
-      console.log("it worked");
-      res.send(results);
+      console.log("Inserted User");
+      res.send({ failed: false });
     }
   });
 });
@@ -63,16 +63,16 @@ app.post("/signin", function(req, res) {
     if (err) {
       console.log("Error getting user");
       console.log(err);
-      res.send(err);
+      res.send({ failed: true });
     } else {
       if (results && results.length) {
-        console.log("user has been found");
+        console.log("User has been found");
         console.log(results);
         res.send(results);
       } else {
-        console.log("no user with firebase id: " + req.body.firebase_id);
+        console.log("No user with firebase id: " + req.body.firebase_id);
         console.log(results);
-        res.send(results);
+        res.send({ failed: true });
       }
     }
   });
@@ -99,16 +99,16 @@ app.post("/updateprofile", function(req, res) {
       if (err) {
         console.log("Error updating profile");
         console.log(err);
-        res.send(err);
+        res.send({ failed: true });
       } else {
         if (results) {
-          console.log("user info has been changed");
+          console.log("User info has been changed");
           console.log(results);
-          res.send(results);
+          res.send({ failed: false });
         } else {
-          console.log("user info has not been changed");
+          console.log("User info has not been changed"); //Does this mean none of the attributes were different, therefore not updated?
           console.log(results);
-          res.send(results);
+          res.send({ failed: false });
         }
       }
     }
@@ -126,10 +126,11 @@ app.post("/deleteclass", function(req, res) {
     if (err) {
       console.log("Error deleting class");
       console.log(err);
-      res.send(err);
+      res.send({ failed: true });
     } else {
+      console.log("Deleted class");
       console.log(results);
-      res.send(results);
+      res.send({ failed: false });
     }
   });
 });
@@ -150,16 +151,16 @@ app.post("/createclass", function(req, res) {
     if (err) {
       console.log("Error adding class");
       console.log(err);
-      res.send(err);
+      res.send({ failed: true });
     } else {
       if (results) {
-        console.log("class has been added");
+        console.log("Class has been added");
         console.log(results);
-        res.send(results);
+        res.send({ failed: false });
       } else {
-        console.log("could not add class");
+        console.log("Could not add class"); //When does this happen?
         console.log(results);
-        res.send(results);
+        res.send({ failed: true });
       }
     }
   });
@@ -180,20 +181,20 @@ app.post("/viewclass", function(req, res) {
     if (err) {
       console.log("Error viewing class");
       console.log(err);
-      res.send(err);
+      res.send({ failed: true });
     } else {
       if (results) {
         if (results.length) {
-          console.log("class has been found and has assignments");
+          console.log("Class has been found and has assignments");
         } else {
-          console.log("class has been found but no assignments");
+          console.log("Class has been found but no assignments");
         }
         console.log(results);
         res.send(results);
       } else {
-        console.log("could not find class");
+        console.log("Could not find class"); //When does this happen?
         console.log(results);
-        res.send(results);
+        res.send({ failed: true });
       }
     }
   });
@@ -218,16 +219,16 @@ app.post("/updateclass", function(req, res) {
       if (err) {
         console.log("Error updating class");
         console.log(err);
-        res.send(err);
+        res.send({ failed: true });
       } else {
         if (results) {
-          console.log("class info has been changed");
+          console.log("Class info has been changed");
           console.log(results);
-          res.send(results);
+          res.send({ failed: false });
         } else {
-          console.log("class info has not been changed");
+          console.log("Class info has not been changed"); //What does this mean?
           console.log(results);
-          res.send(results);
+          res.send({ failed: false });
         }
       }
     }
@@ -257,7 +258,7 @@ app.post("/createassignment", (req, res) => {
     if (err) {
       console.log("Error creating assignment transaction");
       console.log(err);
-      res.send(err);
+      res.send({ failed: true });
     }
 
     //Work on inserting the assignments first
@@ -278,7 +279,7 @@ app.post("/createassignment", (req, res) => {
         return connection.rollback(function() {
           console.log("Error inserting assignment");
           console.log(err);
-          res.send(err);
+          res.send({ failed: true });
         });
       }
 
@@ -299,7 +300,7 @@ app.post("/createassignment", (req, res) => {
           return connection.rollback(function() {
             console.log("Error inserting questions");
             console.log(err);
-            res.send(err);
+            res.send({ failed: true });
           });
         }
         connection.commit(function(err) {
@@ -307,11 +308,11 @@ app.post("/createassignment", (req, res) => {
             return connection.rollback(function() {
               console.log("Error commiting create assignment transaction");
               console.log(err);
-              res.send(err);
+              res.send({ failed: true });
             });
           }
           console.log("Assignment has been added!");
-          res.send(results);
+          res.send({ failed: false });
         });
       });
     });
