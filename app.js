@@ -106,9 +106,9 @@ app.post("/updateprofile", function(req, res) {
           console.log(results);
           res.send({ failed: false });
         } else {
-          console.log("User info has not been changed"); //Does this mean none of the attributes were different, therefore not updated?
+          console.log("User info has not been changed"); //This means the query went through but changed nothing
           console.log(results);
-          res.send({ failed: false });
+          res.send({ failed: true });
         }
       }
     }
@@ -158,7 +158,7 @@ app.post("/createclass", function(req, res) {
         console.log(results);
         res.send({ failed: false });
       } else {
-        console.log("Could not add class"); //When does this happen?
+        console.log("Could not add class"); //Probably never happens
         console.log(results);
         res.send({ failed: true });
       }
@@ -192,7 +192,7 @@ app.post("/viewclass", function(req, res) {
         console.log(results);
         res.send(results);
       } else {
-        console.log("Could not find class"); //When does this happen?
+        console.log("Could not find class"); //If we couldn't find the ID
         console.log(results);
         res.send({ failed: true });
       }
@@ -226,9 +226,9 @@ app.post("/updateclass", function(req, res) {
           console.log(results);
           res.send({ failed: false });
         } else {
-          console.log("Class info has not been changed"); //What does this mean?
+          console.log("Class info has not been changed"); //This means the query went through, but didn't change anything
           console.log(results);
-          res.send({ failed: false });
+          res.send({ failed: true });
         }
       }
     }
