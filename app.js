@@ -51,8 +51,7 @@ app.post("/signup", function(req, res) {
 /**
  * Use Case 1.1.1 and 2.1.1
  */
-const GET_USER_INFO_QUERY =
-  "SELECT firebase_id, is_teacher from users WHERE firebase_id = ?";
+const GET_USER_INFO_QUERY = "SELECT * from users WHERE firebase_id = ?";
 app.post("/signin", function(req, res) {
   console.log("Sign In body given: ");
   console.log(req.body);
