@@ -311,6 +311,7 @@ app.post("/createassignment", (req, res) => {
             });
           }
           console.log("Assignment has been added!");
+          res.send(results);
         });
       });
     });
