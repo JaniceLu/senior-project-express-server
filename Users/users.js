@@ -21,8 +21,7 @@ const addUser = (req, res) => {
     });
 }
 
-const GET_USER_INFO_QUERY =
-    "SELECT firebase_id, is_teacher from users WHERE firebase_id = ?";
+const GET_USER_INFO_QUERY = "SELECT * from users WHERE firebase_id = ?";
 const getUserInfo = (req, res) => {
     console.log("Sign In body given: ");
     console.log(req.body);
