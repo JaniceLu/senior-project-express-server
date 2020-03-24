@@ -27,43 +27,45 @@ connection.connect(function(err) {
 /**
  * Use Case 0.1.1
  */
-app.post("/signup", user.addUser());
+app.post("/signup", user.addUser);
 
 /**
  * Use Case 1.1.1 and 2.1.1
  */
-app.post("/signin", user.getUserInfo());
+app.post("/signin", user.getUserInfo);
 
 /**
  * Use Case 1.2.2
  * Change History:
  * 3/10 - changed so that all parameters are needed for update
  */
-app.post("/updateprofile", user.updateUserInfo());
+app.post("/updateprofile", (req, res) => user.updateUserInfo(req, res));
 
 /**
  * Use Case 2.2.1
  */
-app.post("/deleteclass", classes.deleteClass());
+app.post("/deleteclass", (req, res) => classes.deleteClass(req, res));
 
 /**
  * Use case 2.3.1
  */
-app.post("/createclass", classes.createClass());
+app.post("/createclass", (req, res) => classes.createClass(req, res));
 
 /**
  * Use Case 2.4.1
  */
-app.post("/viewclass", classes.getClass());
+app.post("/viewclass", (req, res) => classes.getClass(req, res));
 
 /**
  * Use Case 2.10.2
  */
-app.post("/updateclass", classes.updateClass());
+app.post("/updateclass", (req, res) => classes.updateClass(req, res));
 
 /*
  * Use Case 2.9.1
  */
-app.post("/createassignment", assignments.createAssignment());
+app.post("/createassignment", (req, res) =>
+  assignments.createAssignment(req, res)
+);
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
