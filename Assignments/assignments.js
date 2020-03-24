@@ -1,8 +1,9 @@
+const moment = require("moment");
+
 const CREATE_ASSIGNMENT_QUERY = `INSERT INTO assignments SET ?`;
 const CREATE_QUESTIONS_QUERY = `INSERT INTO questions (assignment_id,question,answer) VALUES ?`;
-
-const createAssignment = (req, res) => {
-    const requestBody = req.body;
+const createAssignment = (req, res, connection) => {
+  const requestBody = req.body;
   console.log("Create Assignment body given: ");
   console.log(requestBody);
   connection.beginTransaction(function(err) {
@@ -68,16 +69,6 @@ const createAssignment = (req, res) => {
       });
     });
   });
-}
+};
 
-
-const _createAssignment = createAssignment;
-const _getAssignment = getAssignment;
-const _updateAssignment = updateAssignment;
-const _deleteAssignment = deleteAssignment;
-
-
-export { _createAssignment as createAssignment };
-export { _getAssignment as getAssignment };
-export { _updateAssignment as updateAssignment };
-export { _deleteAssignment as deleteAssignment };
+exports.createAssignment = createAssignment;
