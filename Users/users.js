@@ -1,5 +1,5 @@
 const ADD_NEW_USER_QUERY = "INSERT INTO users SET ?";
-const addUser = (req, res) => {
+const addUser = (req, res, connection) => {
   console.log("Sign Up body given: ");
   console.log(req.body);
   var new_user = {
@@ -22,7 +22,7 @@ const addUser = (req, res) => {
 };
 
 const GET_USER_INFO_QUERY = "SELECT * from users WHERE firebase_id = ?";
-const getUserInfo = (req, res) => {
+const getUserInfo = (req, res, connection) => {
   console.log("Sign In body given: ");
   console.log(req.body);
   connection.query(GET_USER_INFO_QUERY, req.body.firebase_id, function(
@@ -49,7 +49,7 @@ const getUserInfo = (req, res) => {
 };
 
 const UPDATE_USER_INFO_QUERY = "UPDATE users SET ? WHERE firebase_id = ?";
-const updateUserInfo = (req, res) => {
+const updateUserInfo = (req, res, connection) => {
   console.log("Update Profile body given: ");
   console.log(req.body);
   var updatedInfo = {

@@ -2,7 +2,7 @@ const moment = require("moment");
 
 const CREATE_ASSIGNMENT_QUERY = `INSERT INTO assignments SET ?`;
 const CREATE_QUESTIONS_QUERY = `INSERT INTO questions (assignment_id,question,answer) VALUES ?`;
-const createAssignment = (req, res) => {
+const createAssignment = (req, res, connection) => {
   const requestBody = req.body;
   console.log("Create Assignment body given: ");
   console.log(requestBody);

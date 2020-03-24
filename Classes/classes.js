@@ -1,5 +1,5 @@
 const ADD_NEW_CLASS_QUERY = "INSERT INTO classes SET ?";
-const createClass = (req, res) => {
+const createClass = (req, res, connection) => {
   console.log("Create Class body given: ");
   console.log(req.body);
   var newClass = {
@@ -28,7 +28,7 @@ const createClass = (req, res) => {
 
 const GET_CLASS_INFO_QUERY =
   "SELECT id, name, due_date, pub_date from assignments WHERE class_id = ?";
-const getClass = (req, res) => {
+const getClass = (req, res, connection) => {
   console.log("View Class body given: ");
   console.log(req.body);
   connection.query(GET_CLASS_INFO_QUERY, req.body.class_id, function(
@@ -58,7 +58,7 @@ const getClass = (req, res) => {
 };
 
 const UPDATE_CLASS_INFO_QUERY = "UPDATE classes SET ? WHERE id = ?";
-const updateClass = (req, res) => {
+const updateClass = (req, res, connection) => {
   console.log("Update Class body given: ");
   console.log(req.body);
   var updatedData = {
@@ -90,7 +90,7 @@ const updateClass = (req, res) => {
 };
 
 const DELETE_CLASS_QUERY = "DELETE FROM classes where id = ?";
-const deleteClass = (req, res) => {
+const deleteClass = (req, res, connection) => {
   console.log("Delete Class body given: ");
   console.log(req.body);
   connection.query(DELETE_CLASS_QUERY, req.body.id, function(err, results) {
