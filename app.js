@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const assignments = require("./Assignments/assignments.js");
 const classes = require("./Classes/classes.js");
 const user = require("./Users/users.js");
+const roster = require("./Roster/roster.js");
 
 const port = process.env.PORT || 3000;
 const dburl = process.env.DATABASE_URL || process.env.DATABASE_URI;
@@ -62,6 +63,10 @@ app.post("/createclass", (req, res) =>
  */
 app.post("/viewclass", (req, res) => classes.getClass(req, res, connection));
 
+/**
+ * Use Case 2.5.1
+ */
+app.post("/viewroster", (req, res) => )
 /**
  * Use Case 2.10.2
  */

@@ -26,8 +26,7 @@ const createClass = (req, res, connection) => {
   });
 };
 
-const GET_CLASS_INFO_QUERY =
-  "SELECT id, name, due_date, pub_date from assignments WHERE class_id = ?";
+const GET_CLASS_INFO_QUERY = "SELECT id, name, due_date, pub_date from assignments WHERE class_id = ?";
 const getClass = (req, res, connection) => {
   console.log("View Class body given: ");
   console.log(req.body);
