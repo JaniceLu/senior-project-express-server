@@ -76,4 +76,11 @@ app.post("/createassignment", (req, res) =>
   assignments.createAssignment(req, res, connection)
 );
 
+/*
+ * Use Case 2.8.1
+ */
+app.post("/getassignment", (req, res) =>
+  assignments.getAssignment(req, res, connection)
+);
+
 app.listen(port, () => console.log(`Listening on port ${port}!`));
