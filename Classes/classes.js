@@ -26,11 +26,11 @@ const createClass = (req, res, connection) => {
   });
 };
 
-const GET_CLASS_INFO_QUERY = "SELECT id, name, due_date, pub_date from assignments WHERE class_id = ?";
-const getClass = (req, res, connection) => {
+const GET_CLASS_ASSIGNMENT_INFO_QUERY = "SELECT id, name, due_date, pub_date from assignments WHERE class_id = ?";
+const getClassAssgnInfo = (req, res, connection) => {
   console.log("View Class body given: ");
   console.log(req.body);
-  connection.query(GET_CLASS_INFO_QUERY, req.body.class_id, function(
+  connection.query(GET_CLASS_ASSIGNMENT_INFO_QUERY, req.body.class_id, function(
     err,
     results
   ) {
@@ -54,6 +54,35 @@ const getClass = (req, res, connection) => {
       }
     }
   });
+};
+
+const GET_CLASS_INFO_QUERY = "SELECT * from classes where firebase_id = ?";
+const getClasses = (req, res, connection) => {
+    console.log("View classes given: ");
+    console.log(req.body);
+    connection.query(GET_CLASS_INFO_QUERY, req.body.firebase_id, function(
+        err,
+        results
+    ) {
+        if (err) {
+            console.log("Error retrieving classes");
+            console.log(err);
+            res.send({ failed: true });
+        } else {
+            if (results) {
+                if (results.length) {
+                    console.log("Classes have been found");
+                } else {
+                    console.log("No classes found");
+                }
+                console.log(results);
+                res.send(results);
+            } else {
+                console.log("Could not find classes associated with firebase id"); //should never happen, if no matching firebase id exists
+                res.send({ failed: true });
+            }
+        }
+    });
 };
 
 const UPDATE_CLASS_INFO_QUERY = "UPDATE classes SET ? WHERE id = ?";
@@ -106,6 +135,7 @@ const deleteClass = (req, res, connection) => {
 };
 
 exports.createClass = createClass;
-exports.getClass = getClass;
+exports.getClassAssgnInfo = getClassAssgnInfo;
+exports.getClasses = getClasses;
 exports.updateClass = updateClass;
 exports.deleteClass = deleteClass;

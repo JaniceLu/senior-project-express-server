@@ -59,9 +59,16 @@ app.post("/createclass", (req, res) =>
 );
 
 /**
+ * Use case 2.3.2
+ */
+app.post("/getclasses", (req, res) => 
+  classes.getClasses(req, res, connection)
+);
+
+/**
  * Use Case 2.4.1
  */
-app.post("/viewclass", (req, res) => classes.getClass(req, res, connection));
+app.post("/viewclass", (req, res) => classes.getClassAssgnInfo(req, res, connection));
 
 /**
  * Use Case 2.5.1
