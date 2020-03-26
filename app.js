@@ -45,6 +45,13 @@ app.post("/updateprofile", (req, res) =>
 );
 
 /**
+ * Use case 1.3.1
+ */
+app.post("/leaveclass", (req, res) => 
+  classes.deleteUser(req, res, connection)
+);
+
+/**
  * Use Case 2.2.1
  */
 app.post("/deleteclass", (req, res) =>
@@ -59,7 +66,7 @@ app.post("/createclass", (req, res) =>
 );
 
 /**
- * Use case 2.3.2
+ * Use case 2.1.2, 2.3.2
  */
 app.post("/getclasses", (req, res) => 
   classes.getClasses(req, res, connection)
@@ -68,12 +75,17 @@ app.post("/getclasses", (req, res) =>
 /**
  * Use Case 2.4.1
  */
-app.post("/viewclass", (req, res) => classes.getClassAssgnInfo(req, res, connection));
+app.post("/viewclass", (req, res) => 
+  classes.getClassAssgnInfo(req, res, connection)
+);
 
 /**
  * Use Case 2.5.1
  */
-app.post("/viewroster", (req, res) => )
+app.post("/viewroster", (req, res) => 
+  roster.getRoster(req, res, connection)
+);
+
 /**
  * Use Case 2.10.2
  */

@@ -22,7 +22,7 @@ const getRoster = (req, res, connection) => {
             } else {
                 console.log("Could not find roster"); //should never reach here, couldnt find the firebase_id
                 console.log(results);
-                res.send({ failed: true});
+                res.send({ failed: true });
             }
         }
     });
