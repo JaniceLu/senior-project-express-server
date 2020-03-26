@@ -69,7 +69,7 @@ const createAssignment = (req, res, connection) => {
 };
 
 const GET_ASSIGNMENT_QUERY = `SELECT name, due_date FROM assignments WHERE id = ?`;
-const GET_QUESTIONS_QUERY = `SELECT id, question, answer FROM questions WHERE id = ?`;
+const GET_QUESTIONS_QUERY = `SELECT id, question, answer FROM questions WHERE assignment_id = ?`;
 const getAssignment = (req, res, connection) => {
   const requestBody = req.body;
   console.log("Get Assignment body given: ");
@@ -120,6 +120,9 @@ const getAssignment = (req, res, connection) => {
           //This happens when we ask for an ID that doesn't exist
           if (assignmentResults.length < 1) {
             console.log("Assignment was not found with the given id");
+            res.send({ failed: true });
+          } else if (questionsResults.length < 1) {
+            console.log("Questions were not found with the given id");
             res.send({ failed: true });
           } else {
             console.log("Assignment has been retrieved!");
