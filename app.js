@@ -52,6 +52,13 @@ app.post("/leaveclass", (req, res) =>
 );
 
 /**
+ * Use case 1.4.1
+ */
+app.post("/adduser", (req, res) => 
+  roster.addUser(req, res, connection)
+);
+
+/**
  * Use Case 2.2.1
  */
 app.post("/deleteclass", (req, res) =>
