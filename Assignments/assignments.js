@@ -140,5 +140,26 @@ const getAssignment = (req, res, connection) => {
   });
 };
 
+const DELETE_ASSIGNMENT_QUERY = "DELETE FROM assignments where id = ?";
+const deleteAssignment = (req, res, connection) => {
+  console.log("Delete Assignment body given: ");
+  console.log(req.body);
+  connection.query(DELETE_ASSIGNMENT_QUERY, req.body.id, function(
+    err,
+    results
+  ) {
+    if (err) {
+      console.log("Error deleting assignment");
+      console.log(err);
+      res.send({ failed: true });
+    } else {
+      console.log("Deleted assignment");
+      console.log(results);
+      res.send({ failed: false });
+    }
+  });
+};
+
 exports.createAssignment = createAssignment;
 exports.getAssignment = getAssignment;
+exports.deleteAssignment = deleteAssignment;

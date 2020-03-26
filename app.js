@@ -83,4 +83,11 @@ app.post("/getassignment", (req, res) =>
   assignments.getAssignment(req, res, connection)
 );
 
+/*
+ * Use Case 2.11.1
+ */
+app.post("/deleteassignment", (req, res) =>
+  assignments.deleteAssignment(req, res, connection)
+);
+
 app.listen(port, () => console.log(`Listening on port ${port}!`));
