@@ -90,4 +90,11 @@ app.post("/deleteassignment", (req, res) =>
   assignments.deleteAssignment(req, res, connection)
 );
 
+/*
+ * Use Case 2.8.2
+ */
+app.post("/replaceassignment", (req, res) =>
+  assignments.replaceAssignment(req, res, connection)
+);
+
 app.listen(port, () => console.log(`Listening on port ${port}!`));
