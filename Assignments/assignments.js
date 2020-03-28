@@ -145,8 +145,11 @@ const DELETE_ASSIGNMENT_QUERY = "DELETE FROM assignments WHERE id = ?";
 const deleteAssignment = (req, res, connection) => {
   console.log("Delete Assignment body given: ");
   console.log(req.body);
-  connection.query(DELETE_ASSIGNMENT_QUERY, req.body.id, function(err) {
-    if (err) {
+  connection.query(DELETE_ASSIGNMENT_QUERY, req.body.id, function(
+    err,
+    results
+  ) {
+    if (err || results.affectedRows < 1) {
       console.log("Error deleting assignment");
       console.log(err);
       res.send({ failed: true });
@@ -209,8 +212,8 @@ const replaceAssignment = (req, res, connection) => {
         connection.query(
           DELETE_ASSIGNMENT_QUERY,
           requestBody.delete_id,
-          function(err) {
-            if (err) {
+          function(err, results) {
+            if (err || results.affectedRows < 1) {
               return connection.rollback(function() {
                 console.log("Error deleting assignment");
                 console.log(err);
