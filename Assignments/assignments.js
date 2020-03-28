@@ -130,6 +130,7 @@ const getAssignment = (req, res, connection) => {
             const combinedResults = {
               assignment_name: assignment.name,
               due_date: assignment.due_date,
+              assignment_id: assignment.id,
               questions: questionsResults
             };
             res.send(combinedResults);
