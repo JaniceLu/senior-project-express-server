@@ -144,10 +144,7 @@ const DELETE_ASSIGNMENT_QUERY = "DELETE FROM assignments WHERE id = ?";
 const deleteAssignment = (req, res, connection) => {
   console.log("Delete Assignment body given: ");
   console.log(req.body);
-  connection.query(DELETE_ASSIGNMENT_QUERY, req.body.id, function(
-    err,
-    results
-  ) {
+  connection.query(DELETE_ASSIGNMENT_QUERY, req.body.id, function(err) {
     if (err) {
       console.log("Error deleting assignment");
       console.log(err);
