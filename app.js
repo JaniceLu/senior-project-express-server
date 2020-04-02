@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const assignments = require("./Assignments/assignments.js");
 const classes = require("./Classes/classes.js");
 const user = require("./Users/users.js");
+const roster = require("./Roster/roster.js");
 
 const port = process.env.PORT || 3000;
 const dburl = process.env.DATABASE_URL || process.env.DATABASE_URI;
@@ -44,6 +45,20 @@ app.post("/updateprofile", (req, res) =>
 );
 
 /**
+ * Use case 1.3.1
+ */
+app.post("/leaveclass", (req, res) => 
+  roster.deleteUser(req, res, connection)
+);
+
+/**
+ * Use case 1.4.1
+ */
+app.post("/adduser", (req, res) => 
+  roster.addUser(req, res, connection)
+);
+
+/**
  * Use Case 2.2.1
  */
 app.post("/deleteclass", (req, res) =>
@@ -58,9 +73,25 @@ app.post("/createclass", (req, res) =>
 );
 
 /**
+ * Use case 2.1.2, 2.3.2
+ */
+app.post("/getclasses", (req, res) => 
+  classes.getClasses(req, res, connection)
+);
+
+/**
  * Use Case 2.4.1
  */
-app.post("/viewclass", (req, res) => classes.getClass(req, res, connection));
+app.post("/viewclass", (req, res) => 
+  classes.getClassAssgnInfo(req, res, connection)
+);
+
+/**
+ * Use Case 2.5.1
+ */
+app.post("/viewroster", (req, res) => 
+  roster.getRoster(req, res, connection)
+);
 
 /**
  * Use Case 2.10.2
