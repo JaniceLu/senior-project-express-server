@@ -149,32 +149,9 @@ const deleteClass = (req, res, connection) => {
         });
 };
 
-const DELETE_USER_QUERY = "DELETE from classes where firebase_id = ?";
-const deleteUser = (req, res, connection) => {
-    console.log("Delete User body given: ");
-    console.log(req.body);
-    connection.query(
-        DELETE_USER_QUERY, 
-        req.body.firebase_id, 
-        function (
-            err, 
-            results
-        ) {
-            if (err) {
-                console.log("Error deleting user from class");
-                console.log(err);
-                res.send({ failed: true });
-            } else {
-                console.log("Delete user from class");
-                console.log(results);
-                res.send({ failed: false });
-            }
-    });
-};
-
 exports.createClass = createClass;
 exports.getClassAssgnInfo = getClassAssgnInfo;
 exports.getClasses = getClasses;
 exports.updateClass = updateClass;
 exports.deleteClass = deleteClass;
-exports.deleteUser = deleteUser;
+

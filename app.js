@@ -48,7 +48,7 @@ app.post("/updateprofile", (req, res) =>
  * Use case 1.3.1
  */
 app.post("/leaveclass", (req, res) => 
-  classes.deleteUser(req, res, connection)
+  roster.deleteUser(req, res, connection)
 );
 
 /**

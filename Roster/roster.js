@@ -64,5 +64,29 @@ const getRoster = (req, res, connection) => {
         });
 };
 
+const DELETE_USER_QUERY = "DELETE from roster where firebase_id = ?";
+const deleteUser = (req, res, connection) => {
+    console.log("Delete User body given: ");
+    console.log(req.body);
+    connection.query(
+        DELETE_USER_QUERY, 
+        req.body.firebase_id, 
+        function (
+            err, 
+            results
+        ) {
+            if (err) {
+                console.log("Error deleting user from class");
+                console.log(err);
+                res.send({ failed: true });
+            } else {
+                console.log("Delete user from class");
+                console.log(results);
+                res.send({ failed: false });
+            }
+    });
+};
+
 exports.addUser = addUser;
 exports.getRoster = getRoster;
+exports.deleteUser = deleteUser;
