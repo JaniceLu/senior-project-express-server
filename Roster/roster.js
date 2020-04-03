@@ -94,6 +94,35 @@ const getRosterRequests = (req, res, connection) => {
     );
 };
 
+const ADD_TO_ROSTER_QUERY = "UPDATE roster SET ? where firebase_id = ?";
+const acceptRequest = (req, res, connection) => {
+    console.log("Accepting user request: ");
+    console.log(req.body);
+    connection.query(
+        ADD_TO_ROSTER_QUERY,
+        req.body.firebase_id,
+        function (
+            err, 
+            results
+        ) {
+            if (err) {
+                console.log("Could not accept user request");
+                console.log(err);
+                res.send({ failed: true });
+            } else {
+                if (results) {
+                    console.log("User has now been added");
+                    console.log(results);
+                    res.send({ failed: false });
+                } else {
+                    console.log("User's request was not processed");
+                    console.log(reuslts);
+                    res.send({ failed: true });
+                }
+            }
+        }
+    );
+};
 
 const DELETE_USER_QUERY = "DELETE from roster where firebase_id = ?";
 const deleteUser = (req, res, connection) => {
@@ -121,4 +150,5 @@ const deleteUser = (req, res, connection) => {
 exports.addUser = addUser;
 exports.getRoster = getRoster;
 exports.getRosterRequests = getRosterRequests;
+exports.acceptRequest = acceptRequest;
 exports.deleteUser = deleteUser;
