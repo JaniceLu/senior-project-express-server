@@ -98,9 +98,13 @@ const ADD_TO_ROSTER_QUERY = "UPDATE roster SET ? where firebase_id = ?";
 const acceptRequest = (req, res, connection) => {
     console.log("Accepting user request: ");
     console.log(req.body);
+    var updatedData = {
+        accepted: 1,
+        id: req.body.id
+    }
     connection.query(
         ADD_TO_ROSTER_QUERY,
-        req.body.firebase_id,
+        [updatedData, req.body.firebase_id],
         function (
             err, 
             results
