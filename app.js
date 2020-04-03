@@ -80,7 +80,7 @@ app.post("/getclasses", (req, res) =>
 );
 
 /**
- * Use Case 2.4.1
+ * Use Case 2.4.1, 2.10.1
  */
 app.post("/viewclass", (req, res) => 
   classes.getClassAssgnInfo(req, res, connection)
@@ -91,6 +91,13 @@ app.post("/viewclass", (req, res) =>
  */
 app.post("/viewroster", (req, res) => 
   roster.getRoster(req, res, connection)
+);
+
+/**
+ * Use Case 2.6.1
+ */
+app.post("/viewrosterrequests", (req, res) =>
+  roster.getRosterRequests(req, res, connection)
 );
 
 /**
