@@ -45,7 +45,7 @@ app.post("/updateprofile", (req, res) =>
 );
 
 /**
- * Use case 1.3.1
+ * Use case 1.3.1, 2.6.2
  */
 app.post("/leaveclass", (req, res) => 
   roster.deleteUser(req, res, connection)
@@ -80,7 +80,7 @@ app.post("/getclasses", (req, res) =>
 );
 
 /**
- * Use Case 2.4.1
+ * Use Case 2.4.1, 2.10.1
  */
 app.post("/viewclass", (req, res) => 
   classes.getClassAssgnInfo(req, res, connection)
@@ -91,6 +91,20 @@ app.post("/viewclass", (req, res) =>
  */
 app.post("/viewroster", (req, res) => 
   roster.getRoster(req, res, connection)
+);
+
+/**
+ * Use Case 2.6.1
+ */
+app.post("/viewrosterrequests", (req, res) =>
+  roster.getRosterRequests(req, res, connection)
+);
+
+/**
+ * Use Case 2.6.3
+ */
+app.post("/acceptrequest", (req, res) =>
+  roster.acceptRequest(req, res, connection)
 );
 
 /**
