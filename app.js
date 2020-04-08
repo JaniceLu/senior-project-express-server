@@ -16,7 +16,7 @@ app.use(bodyParser.raw());
 app.use(bodyParser.json());
 app.use(cors());
 
-connection.connect(function(err) {
+connection.connect(function (err) {
   if (err) {
     console.log("Error connecting to DB");
     console.log(err);
@@ -47,16 +47,12 @@ app.post("/updateprofile", (req, res) =>
 /**
  * Use case 1.3.1, 2.6.2
  */
-app.post("/leaveclass", (req, res) => 
-  roster.deleteUser(req, res, connection)
-);
+app.post("/leaveclass", (req, res) => roster.deleteUser(req, res, connection));
 
 /**
  * Use case 1.4.1
  */
-app.post("/adduser", (req, res) => 
-  roster.addUser(req, res, connection)
-);
+app.post("/adduser", (req, res) => roster.addUser(req, res, connection));
 
 /**
  * Use Case 2.2.1
@@ -75,23 +71,19 @@ app.post("/createclass", (req, res) =>
 /**
  * Use case 2.1.2, 2.3.2
  */
-app.post("/getclasses", (req, res) => 
-  classes.getClasses(req, res, connection)
-);
+app.post("/getclasses", (req, res) => classes.getClasses(req, res, connection));
 
 /**
  * Use Case 2.4.1, 2.10.1
  */
-app.post("/viewclass", (req, res) => 
+app.post("/viewclass", (req, res) =>
   classes.getClassAssgnInfo(req, res, connection)
 );
 
 /**
  * Use Case 2.5.1
  */
-app.post("/viewroster", (req, res) => 
-  roster.getRoster(req, res, connection)
-);
+app.post("/viewroster", (req, res) => roster.getRoster(req, res, connection));
 
 /**
  * Use Case 2.6.1
@@ -140,6 +132,13 @@ app.post("/deleteassignment", (req, res) =>
  */
 app.post("/replaceassignment", (req, res) =>
   assignments.replaceAssignment(req, res, connection)
+);
+
+/*
+ * Use Case 1.1.2
+ */
+app.post("/getstudentassignments", (req, res) =>
+  assignments.getStudentAssignments(req, res, connection)
 );
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
