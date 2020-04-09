@@ -260,55 +260,60 @@ const getStudentAssignments = (req, res, connection) => {
     }
 
     //Grab roster status
-    connection.query(GET_ENROLLED_STATUS_QUERY, requestBody.id, function (
-      error,
-      rosterResults
-    ) {
-      if (error) {
-        return connection.rollback(function () {
-          console.log("Error viewing roster status");
-          console.log(err);
-          res.send({ failed: true });
-        });
-      }
-
-      //Grab assignments
-      connection.query(GET_STUDENT_ASSIGNMENTS_QUERY, requestBody.id, function (
-        error,
-        assignmentsResults
-      ) {
+    connection.query(
+      GET_ENROLLED_STATUS_QUERY,
+      requestBody.firebase_id,
+      function (error, rosterResults) {
         if (error) {
           return connection.rollback(function () {
-            console.log("Error viewing assignments");
+            console.log("Error viewing roster status");
             console.log(err);
             res.send({ failed: true });
           });
         }
 
-        //If both reads succeed, put the results together
-        connection.commit(function (err) {
-          if (err) {
-            return connection.rollback(function () {
-              console.log("Error commiting create assignment transaction");
-              console.log(err);
-              res.send({ failed: true });
+        //Grab assignments
+        connection.query(
+          GET_STUDENT_ASSIGNMENTS_QUERY,
+          requestBody.firebase_id,
+          function (error, assignmentsResults) {
+            if (error) {
+              return connection.rollback(function () {
+                console.log("Error viewing assignments");
+                console.log(err);
+                res.send({ failed: true });
+              });
+            }
+
+            //If both reads succeed, put the results together
+            connection.commit(function (err) {
+              if (err) {
+                return connection.rollback(function () {
+                  console.log("Error commiting create assignment transaction");
+                  console.log(err);
+                  res.send({ failed: true });
+                });
+              }
+
+              //Check student enrollment status
+              if (rosterResults.length < 1) {
+                console.log("Student has not applied for a class");
+                res.send({ status: "none", assignments: [] });
+              } else if (!rosterResults[0].accepted) {
+                console.log("Student enrollment is pending");
+                res.send({ status: "pending", assignments: [] });
+              } else {
+                console.log("Student is enrolled. Sending assignments...");
+                res.send({
+                  status: "accepted",
+                  assignments: assignmentsResults,
+                });
+              }
             });
           }
-
-          //Check student enrollment status
-          if (rosterResults.length < 1) {
-            console.log("Student has not applied for a class");
-            res.send({ status: "none", assignments: [] });
-          } else if (!rosterResults[0].accepted) {
-            console.log("Student enrollment is pending");
-            res.send({ status: "pending", assignments: [] });
-          } else {
-            console.log("Student is enrolled. Sending assignments...");
-            res.send({ status: "accepted", assignments: assignmentsResults });
-          }
-        });
-      });
-    });
+        );
+      }
+    );
   });
 };
 
