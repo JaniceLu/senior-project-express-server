@@ -317,6 +317,34 @@ const getStudentAssignments = (req, res, connection) => {
   });
 };
 
+const GET_STUDENT_ASSIGNMENT_QUESTIONS_QUERY = `SELECT id, question, answer FROM questions WHERE assignment_id = ?`;
+const getStudentAssignmentQuestions = (req, res, connection) => {
+  console.log("View student assignment questions body given: ");
+  console.log(req.body);
+  connection.query(GET_CLASS_INFO_QUERY, req.body.assignment_id, function (
+    err,
+    results
+  ) {
+    if (err) {
+      console.log("Error retrieving assignment questions");
+      console.log(err);
+      res.send({ failed: true });
+    } else {
+      if (results && results.length) {
+        console.log("Assignment questions have been found");
+        console.log(results);
+        res.send(results);
+      } else {
+        console.log(
+          "No assignment with assignment_id: " + req.body.assignment_id
+        );
+        console.log(results);
+        res.send({ failed: true });
+      }
+    }
+  });
+};
+
 exports.createAssignment = createAssignment;
 exports.getAssignment = getAssignment;
 exports.deleteAssignment = deleteAssignment;
