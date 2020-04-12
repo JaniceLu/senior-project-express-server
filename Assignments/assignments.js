@@ -165,7 +165,7 @@ const getTeacherStudentAssgnProg = (req, res, connection) => {
         res.send(results);
       } else {
         console.log("There are students that have not finished the assignment");
-        console.log("results");
+        console.log(results);
         res.send(results);
       }
     }
