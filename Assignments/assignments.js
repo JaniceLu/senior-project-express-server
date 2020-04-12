@@ -321,28 +321,58 @@ const GET_STUDENT_ASSIGNMENT_QUESTIONS_QUERY = `SELECT id, question, answer FROM
 const getStudentAssignmentQuestions = (req, res, connection) => {
   console.log("View student assignment questions body given: ");
   console.log(req.body);
-  connection.query(GET_CLASS_INFO_QUERY, req.body.assignment_id, function (
-    err,
-    results
-  ) {
-    if (err) {
-      console.log("Error retrieving assignment questions");
-      console.log(err);
-      res.send({ failed: true });
-    } else {
-      if (results && results.length) {
-        console.log("Assignment questions have been found");
-        console.log(results);
-        res.send(results);
-      } else {
-        console.log(
-          "No assignment with assignment_id: " + req.body.assignment_id
-        );
-        console.log(results);
+  connection.query(
+    GET_STUDENT_ASSIGNMENT_QUESTIONS_QUERY,
+    req.body.assignment_id,
+    function (err, results) {
+      if (err) {
+        console.log("Error retrieving assignment questions");
+        console.log(err);
         res.send({ failed: true });
+      } else {
+        if (results && results.length) {
+          console.log("Assignment questions have been found");
+          console.log(results);
+          res.send(results);
+        } else {
+          console.log(
+            "No assignment with assignment_id: " + req.body.assignment_id
+          );
+          console.log(results);
+          res.send({ failed: true });
+        }
       }
     }
-  });
+  );
+};
+
+const UPDATE_STUDENT_ASSIGNMENT_PROGRESS_QUERY = `UPDATE student_assignment_progress
+SET assignment_progress = assignment_progress + 1
+WHERE assignment_id = ? AND firebase_id = ?`;
+const updateStudentProgress = (req, res, connection) => {
+  console.log("Update student assignment progress body given: ");
+  console.log(req.body);
+  connection.query(
+    UPDATE_STUDENT_ASSIGNMENT_PROGRESS_QUERY,
+    [req.body.assignment_id, req.body.firebase_id],
+    function (err, results) {
+      if (err) {
+        console.log("Error updating student progress");
+        console.log(err);
+        res.send({ failed: true });
+      } else {
+        if (results) {
+          console.log("Student progress has been changed");
+          console.log(results);
+          res.send({ failed: false });
+        } else {
+          console.log("Students progress has not been changed"); //This means the query went through but changed nothing
+          console.log(results);
+          res.send({ failed: true });
+        }
+      }
+    }
+  );
 };
 
 exports.createAssignment = createAssignment;
