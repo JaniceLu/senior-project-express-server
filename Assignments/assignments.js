@@ -273,3 +273,4 @@ exports.createAssignment = createAssignment;
 exports.getAssignment = getAssignment;
 exports.deleteAssignment = deleteAssignment;
 exports.replaceAssignment = replaceAssignment;
+exports.getTeacherStudentAssgnProg = getTeacherStudentAssgnProg;
