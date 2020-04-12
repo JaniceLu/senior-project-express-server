@@ -152,8 +152,8 @@ app.post("/updateclass", (req, res) =>
 /*
  * Use Case 2.11.1
  */
-app.post("/deleteassignment", (req, res) =>
-  assignments.deleteAssignment(req, res, connection)
+app.post("/replaceassignment", (req, res) =>
+  assignments.replaceAssignment(req, res, connection)
 );
 
 /*
@@ -168,6 +168,27 @@ app.post("/getstudentquestions", (req, res) =>
  */
 app.post("/updatestudentprogress", (req, res) =>
   assignments.updateStudentProgress(req, res, connection)
+);
+
+/**
+ * Use Case 2.9.1
+ */
+app.post("/createassignment", (req, res) =>
+  assignments.createAssignment(req, res, connection)
+);
+
+/**
+ * Use Case 2.10.2
+ */
+app.post("/updateclass", (req, res) =>
+  classes.updateClass(req, res, connection)
+);
+
+/*
+ * Use Case 2.11.1
+ */
+app.post("/deleteassignment", (req, res) =>
+  assignments.deleteAssignment(req, res, connection)
 );
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
