@@ -144,9 +144,9 @@ const getAssignment = (req, res, connection) => {
 };
 
 const GET_TEACHER_STUDENT_ASSGN_PROGRESS_QUERY = "SELECT ANY_VALUE(id) as assignment_id, ANY_VALUE(name) as name, ANY_VALUE(due_date) as due_date, count(*) as incomplete_assignments FROM assignments t1" +
-"INNER JOIN student_assignment_progress t2" +
-"ON t1.id = t2.assignment_id WHERE t1.id = ? AND t1.number_of_questions > t2.assignment_progress" +
-"GROUP BY assignment_progress, number_of_questions;";
+" INNER JOIN student_assignment_progress t2" +
+" ON t1.id = t2.assignment_id WHERE t1.id = ? AND t1.number_of_questions > t2.assignment_progress" +
+" GROUP BY assignment_progress, number_of_questions;";
 const getTeacherStudentAssgnProg = (req, res, connection) => {
   console.log("Getting student assignment status given assignment id: ");
   console.log(req.body);
