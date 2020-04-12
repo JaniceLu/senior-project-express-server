@@ -380,3 +380,5 @@ exports.getAssignment = getAssignment;
 exports.deleteAssignment = deleteAssignment;
 exports.replaceAssignment = replaceAssignment;
 exports.getStudentAssignments = getStudentAssignments;
+exports.getStudentAssignmentQuestions = getStudentAssignmentQuestions;
+exports.updateStudentProgress = updateStudentProgress;
