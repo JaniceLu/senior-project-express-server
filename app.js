@@ -141,4 +141,18 @@ app.post("/getstudentassignments", (req, res) =>
   assignments.getStudentAssignments(req, res, connection)
 );
 
+/*
+ * Use Case 1.5.2
+ */
+app.post("/getstudentquestions", (req, res) =>
+  assignments.getStudentAssignmentQuestions(req, res, connection)
+);
+
+/*
+ * Use Case 1.5.3
+ */
+app.post("/updatestudentprogress", (req, res) =>
+  assignments.updateStudentProgress(req, res, connection)
+);
+
 app.listen(port, () => console.log(`Listening on port ${port}!`));
