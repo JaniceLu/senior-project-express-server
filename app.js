@@ -150,13 +150,6 @@ app.post("/updateclass", (req, res) =>
 );
 
 /*
- * Use Case 2.11.1
- */
-app.post("/replaceassignment", (req, res) =>
-  assignments.replaceAssignment(req, res, connection)
-);
-
-/*
  * Use Case 1.5.2
  */
 app.post("/getstudentquestions", (req, res) =>
