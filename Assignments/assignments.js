@@ -172,6 +172,34 @@ const getTeacherStudentAssgnProg = (req, res, connection) => {
   });
 };
 
+const GET_STUDENT_INCOMPLETE_QUERY = "SELECT t1.firebase_id as firebase_id, t2.name as name, t2.school_id as school_id, t2.email as email, assignment_progress, assignment_id FROM student_assignment_progress t1"+
+" LEFT JOIN users t2 ON t2.firebase_id = t1.firebase_id" +
+" LEFT JOIN assignments t3 ON t3.id = t1.assignment_id" +
+" WHERE t1.assignment_id = ? AND t3.number_of_questions > t1.assignment_progress";
+const getIncompleteAssgn = (req, res, connection) => {
+  console.log("Student Incomplete Assignment body given: ");
+  console.log(req.body);
+  connection.query(GET_STUDENT_INCOMPLETE_QUERY, req.body.id, function(
+    err,
+    results
+  ) {
+    if (err) {
+      console.log("Error retrieving incompleted assingments");
+      console.log(err);
+      res.send({ failed: true });
+    } else {
+      if (results.length < 1) {
+        console.log("There are no students that have incomplete status");
+        console.log(results);
+        res.send(results);
+      } else {
+        console.log("These are the students that have not finished the assignment");
+        console.log(results);
+        res.send(results);
+      }
+    }
+  });
+};
 
 const DELETE_ASSIGNMENT_QUERY = "DELETE FROM assignments WHERE id = ?";
 const deleteAssignment = (req, res, connection) => {
@@ -353,3 +381,4 @@ exports.deleteAssignment = deleteAssignment;
 exports.replaceAssignment = replaceAssignment;
 exports.getStudentAssignments = getStudentAssignments;
 exports.getTeacherStudentAssgnProg = getTeacherStudentAssgnProg;
+exports.getIncompleteAssgn = getIncompleteAssgn;
