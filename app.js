@@ -58,6 +58,20 @@ app.post("/adduser", (req, res) =>
   roster.addUser(req, res, connection)
 );
 
+/*
+ * Use Case 1.5.2
+ */
+app.post("/getstudentquestions", (req, res) =>
+  assignments.getStudentAssignmentQuestions(req, res, connection)
+);
+
+/*
+ * Use Case 1.5.3
+ */
+app.post("/updatestudentprogress", (req, res) =>
+  assignments.updateStudentProgress(req, res, connection)
+);
+ 
 /**
  * Use Case 2.2.1
  */
@@ -133,34 +147,6 @@ app.post("/getassignment", (req, res) =>
  */
 app.post("/replaceassignment", (req, res) =>
   assignments.replaceAssignment(req, res, connection)
-);
-
-/*
- * Use Case 2.9.1
- */
-app.post("/createassignment", (req, res) =>
-  assignments.createAssignment(req, res, connection)
-);
-
-/**
- * Use Case 2.10.2
- */
-app.post("/updateclass", (req, res) =>
-  classes.updateClass(req, res, connection)
-);
-
-/*
- * Use Case 1.5.2
- */
-app.post("/getstudentquestions", (req, res) =>
-  assignments.getStudentAssignmentQuestions(req, res, connection)
-);
-
-/*
- * Use Case 1.5.3
- */
-app.post("/updatestudentprogress", (req, res) =>
-  assignments.updateStudentProgress(req, res, connection)
 );
 
 /**
