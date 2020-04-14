@@ -114,6 +114,13 @@ app.post("/getteacherstudentprogress", (req, res) =>
   assignments.getTeacherStudentAssgnProg(req, res, connection)
 );
 
+/**
+ * Use Case 2.7.4
+ */
+app.post("/getincompleteassgn", (req, res) => 
+  assignments.getIncompleteAssgn(req, res, connection)
+);
+
 /*
  * Use Case 2.8.1
  */
