@@ -172,10 +172,10 @@ const getTeacherStudentAssgnProg = (req, res, connection) => {
   });
 };
 
-const GET_STUDENT_INCOMPLETE_QUERY = "SELECT t1.firebase_id as firebase_id, t2.name as name, t2.school_id as school_id, t2.email as email, assignment_progress, assignment_id FROM student_assignment_progress t1"+
+const GET_STUDENT_INCOMPLETE_QUERY = "SELECT t1.firebase_id as firebase_id, t2.name as name, t2.school_id as school_id, t2.email as email, t3.number_of_questions <= t1.assignment_progress as isComplete FROM student_assignment_progress t1"+
 " LEFT JOIN users t2 ON t2.firebase_id = t1.firebase_id" +
 " LEFT JOIN assignments t3 ON t3.id = t1.assignment_id" +
-" WHERE t1.assignment_id = ? AND t3.number_of_questions > t1.assignment_progress";
+" WHERE t1.assignment_id = ?";
 const getIncompleteAssgn = (req, res, connection) => {
   console.log("Student Incomplete Assignment body given: ");
   console.log(req.body);
