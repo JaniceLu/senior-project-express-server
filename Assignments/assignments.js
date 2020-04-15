@@ -189,11 +189,11 @@ const getIncompleteAssgn = (req, res, connection) => {
       res.send({ failed: true });
     } else {
       if (results.length < 1) {
-        console.log("There are no students that have incomplete status");
+        console.log("There are no students assigned to this assignment.");
         console.log(results);
         res.send(results);
       } else {
-        console.log("These are the students that have not finished the assignment");
+        console.log("These are the students assigned to this assignment: ");
         console.log(results);
         res.send(results);
       }
