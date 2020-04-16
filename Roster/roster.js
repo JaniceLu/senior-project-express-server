@@ -31,7 +31,7 @@ const addUser = (req, res, connection) => {
         });
 };
 
-const GET_ROSTER_INFO_QUERY = 'SELECT * from roster where firebase_id = ?';
+const GET_ROSTER_INFO_QUERY = 'SELECT * from roster where id = ? AND accepted = true';
 const getRoster = (req, res, connection) => {
     console.log("View roster body given: ");
     console.log(req.body);
@@ -64,7 +64,7 @@ const getRoster = (req, res, connection) => {
         });
 };
 
-const GET_ROSTER_REQUESTS_QUERY = 'SELECT firebase_id, name, school_id, email from users where firebase_id in (SELECT firebase_id from roster where id = ?)';
+const GET_ROSTER_REQUESTS_QUERY = 'SELECT firebase_id, name, school_id, email from users where firebase_id in (SELECT firebase_id from roster where id = ? AND accepted = false)';
 const getRosterRequests = (req, res, connection) => {
     console.log("Get roster requests: ");
     console.log(req.body);
@@ -94,17 +94,13 @@ const getRosterRequests = (req, res, connection) => {
     );
 };
 
-const ADD_TO_ROSTER_QUERY = "UPDATE roster SET ? where firebase_id = ?";
+const ADD_TO_ROSTER_QUERY = "UPDATE roster SET accepted = true where firebase_id = ? and id = ?";
 const acceptRequest = (req, res, connection) => {
     console.log("Accepting user request: ");
     console.log(req.body);
-    var updatedData = {
-        accepted: 1,
-        id: req.body.id
-    }
     connection.query(
         ADD_TO_ROSTER_QUERY,
-        [updatedData, req.body.firebase_id],
+        [req.body.firebase_id, req.body.id],
         function (
             err, 
             results
