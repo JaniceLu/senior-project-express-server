@@ -36,6 +36,13 @@ app.post("/signup", (req, res) => user.addUser(req, res, connection));
 app.post("/signin", (req, res) => user.getUserInfo(req, res, connection));
 
 /**
+ * Use Case 1.1.2
+ */
+app.post("/getstudentassignments", (req, res) =>
+  assignments.getStudentAssignments(req, res, connection)
+);
+
+/**
  * Use Case 1.2.2
  * Change History:
  * 3/10 - changed so that all parameters are needed for update
@@ -47,16 +54,12 @@ app.post("/updateprofile", (req, res) =>
 /**
  * Use case 1.3.1, 2.6.2
  */
-app.post("/leaveclass", (req, res) => 
-  roster.deleteUser(req, res, connection)
-);
+app.post("/leaveclass", (req, res) => roster.deleteUser(req, res, connection));
 
 /**
  * Use case 1.4.1
  */
-app.post("/adduser", (req, res) => 
-  roster.addUser(req, res, connection)
-);
+app.post("/adduser", (req, res) => roster.addUser(req, res, connection));
 
 /*
  * Use Case 1.5.2
@@ -71,7 +74,7 @@ app.post("/getstudentquestions", (req, res) =>
 app.post("/updatestudentprogress", (req, res) =>
   assignments.updateStudentProgress(req, res, connection)
 );
- 
+
 /**
  * Use Case 2.2.1
  */
@@ -89,23 +92,19 @@ app.post("/createclass", (req, res) =>
 /**
  * Use case 2.1.2, 2.3.2
  */
-app.post("/getclasses", (req, res) => 
-  classes.getClasses(req, res, connection)
-);
+app.post("/getclasses", (req, res) => classes.getClasses(req, res, connection));
 
 /**
  * Use Case 2.4.1, 2.10.1
  */
-app.post("/viewclass", (req, res) => 
+app.post("/viewclass", (req, res) =>
   classes.getClassAssgnInfo(req, res, connection)
 );
 
 /**
  * Use Case 2.5.1
  */
-app.post("/viewroster", (req, res) => 
-  roster.getRoster(req, res, connection)
-);
+app.post("/viewroster", (req, res) => roster.getRoster(req, res, connection));
 
 /**
  * Use Case 2.6.1
@@ -124,14 +123,14 @@ app.post("/acceptrequest", (req, res) =>
 /**
  * Use Case 2.7.2
  */
-app.post("/getteacherstudentprogress", (req, res) => 
+app.post("/getteacherstudentprogress", (req, res) =>
   assignments.getTeacherStudentAssgnProg(req, res, connection)
 );
 
 /**
  * Use Case 2.7.4
  */
-app.post("/getincompleteassgn", (req, res) => 
+app.post("/getincompleteassgn", (req, res) =>
   assignments.getIncompleteAssgn(req, res, connection)
 );
 
