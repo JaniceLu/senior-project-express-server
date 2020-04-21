@@ -143,28 +143,30 @@ const getAssignment = (req, res, connection) => {
   });
 };
 
-const GET_TEACHER_STUDENT_ASSGN_PROGRESS_QUERY = "SELECT ANY_VALUE(id) as assignment_id, ANY_VALUE(name) as name, ANY_VALUE(due_date) as due_date, count(*) as incomplete_assignments FROM assignments t1" +
-" INNER JOIN student_assignment_progress t2" +
-" ON t1.id = t2.assignment_id WHERE t1.id = ? AND t1.number_of_questions > t2.assignment_progress" +
-" GROUP BY assignment_progress, number_of_questions;";
+const GET_ASSIGNMENT_STATUS_QUERY = `SELECT a.id as assignment_id, a.name as assignment_name, count(*) as missing_submissions
+FROM assignments a
+JOIN roster r ON a.class_id = r.id
+JOIN student_assignment_progress sap ON sap.assignment_id = a.id AND r.firebase_id = sap.firebase_id 
+WHERE class_id = ? AND sap.assignment_progress < a.number_of_questions
+GROUP BY a.id;`;
 const getTeacherStudentAssgnProg = (req, res, connection) => {
-  console.log("Getting student assignment status given assignment id: ");
+  console.log("Getting assignment statuses given class_id: ");
   console.log(req.body);
-  connection.query(GET_TEACHER_STUDENT_ASSGN_PROGRESS_QUERY, req.body.id, function(
+  connection.query(GET_ASSIGNMENT_STATUS_QUERY, req.body.class_id, function (
     err,
     results
   ) {
     if (err) {
-      console.log("Error retrieving student assignment status");
+      console.log("Error assignment statuses");
       console.log(err);
-      res.send({ failed: true});
+      res.send({ failed: true });
     } else {
       if (results.length < 1) {
-        console.log("There are no students that have incomplete status");
+        console.log("There were no assignments for the given class");
         console.log(results);
         res.send(results);
       } else {
-        console.log("There are students that have not finished the assignment");
+        console.log("These are the assignment statuses:");
         console.log(results);
         res.send(results);
       }
@@ -172,19 +174,20 @@ const getTeacherStudentAssgnProg = (req, res, connection) => {
   });
 };
 
-const GET_STUDENT_INCOMPLETE_QUERY = "SELECT t1.firebase_id as firebase_id, t2.name as name, t2.school_id as school_id, t2.email as email, t3.number_of_questions <= t1.assignment_progress as isComplete FROM student_assignment_progress t1"+
-" LEFT JOIN users t2 ON t2.firebase_id = t1.firebase_id" +
-" LEFT JOIN assignments t3 ON t3.id = t1.assignment_id" +
-" WHERE t1.assignment_id = ?";
+const GET_STUDENT_INCOMPLETE_QUERY =
+  "SELECT t1.firebase_id as firebase_id, t2.name as name, t2.school_id as school_id, t2.email as email, t3.number_of_questions <= t1.assignment_progress as isComplete FROM student_assignment_progress t1" +
+  " LEFT JOIN users t2 ON t2.firebase_id = t1.firebase_id" +
+  " LEFT JOIN assignments t3 ON t3.id = t1.assignment_id" +
+  " WHERE t1.assignment_id = ?";
 const getIncompleteAssgn = (req, res, connection) => {
   console.log("Student Incomplete Assignment body given: ");
   console.log(req.body);
-  connection.query(GET_STUDENT_INCOMPLETE_QUERY, req.body.id, function(
+  connection.query(GET_STUDENT_INCOMPLETE_QUERY, req.body.id, function (
     err,
     results
   ) {
     if (err) {
-      console.log("Error retrieving incompleted assingments");
+      console.log("Error retrieving student assignment progresses");
       console.log(err);
       res.send({ failed: true });
     } else {
