@@ -143,11 +143,11 @@ const getAssignment = (req, res, connection) => {
   });
 };
 
-const GET_ASSIGNMENT_STATUS_QUERY = `SELECT a.id as assignment_id, a.name as assignment_name, count(*) as missing_submissions
+const GET_ASSIGNMENT_STATUS_QUERY = `SELECT a.id as assignment_id, a.name as assignment_name, count(IF(sap.assignment_progress < a.number_of_questions = true, 1, NULL)) as missing_submissions
 FROM assignments a
 JOIN roster r ON a.class_id = r.id
 JOIN student_assignment_progress sap ON sap.assignment_id = a.id AND r.firebase_id = sap.firebase_id 
-WHERE class_id = ? AND sap.assignment_progress < a.number_of_questions
+WHERE class_id = ?
 GROUP BY a.id;`;
 const getTeacherStudentAssgnProg = (req, res, connection) => {
   console.log("Getting assignment statuses given class_id: ");
